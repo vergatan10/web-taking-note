@@ -74,6 +74,10 @@ class NoteController extends Controller
             return redirect()->route('notes')->with('error', 'You are not owner of this note.');
         }
         $note->update($validated);
+
+        if ($validated['is_public'] == 1) {
+            $note->sharedWith()->sync([]);
+        }
         return redirect()->route('notes')->with('success_alert', 'Note updated successfully');
     }
 

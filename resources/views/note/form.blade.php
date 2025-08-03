@@ -46,38 +46,45 @@
                     <h5 class="card-title"><i class="icon-base bx bx-user bg-info"></i> Bagikan Catatan Kepada User Lain
                     </h5>
                     @if ($data->id)
-                        <form action="{{ route('notes.share', $data->id) }}" method="POST" class="mb-3">
-                            @csrf
-                            <div class="form-group mb-2">
-                                <label for="user_id">Pilih User untuk Sharing</label>
-                                <select class="form-control" id="user_id" name="user_id" required>
-                                    <option value="">-- Pilih User --</option>
-                                    @foreach ($users as $user)
-                                        @if ($user->id != auth()->id())
-                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-success btn-sm">Bagikan</button>
-                        </form>
-                        <h6 class="mt-4">Sudah Dibagikan Kepada:</h6>
-                        <div class="list-group">
-                            @forelse ($data->sharedWith as $item)
-                                <div class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ $item->name }}
-                                    <form action="{{ route('notes.unshare', [$data->id]) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        <input type="hidden" name="user_id" value="{{ $item->id }}">
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Hapus akses"
-                                            onclick="return confirm('Yakin ingin menghapus akses user ini?')">Hapus</button>
-                                    </form>
+                        @if ($data->is_public == 0)
+                            <form action="{{ route('notes.share', $data->id) }}" method="POST" class="mb-3">
+                                @csrf
+                                <div class="form-group mb-2">
+                                    <label for="user_id">Pilih User untuk Sharing</label>
+                                    <select class="form-control" id="user_id" name="user_id" required>
+                                        <option value="">-- Pilih User --</option>
+                                        @foreach ($users as $user)
+                                            @if ($user->id != auth()->id())
+                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
                                 </div>
-                            @empty
-                                <div class="list-group-item text-muted">Belum dibagikan ke siapa pun.</div>
-                            @endforelse
-                        </div>
+                                <button type="submit" class="btn btn-success btn-sm">Bagikan</button>
+                            </form>
+                            <h6 class="mt-4">Sudah Dibagikan Kepada:</h6>
+                            <div class="list-group">
+                                @forelse ($data->sharedWith as $item)
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ $item->name }}
+                                        <form action="{{ route('notes.unshare', [$data->id]) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{ $item->id }}">
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Hapus akses"
+                                                onclick="return confirm('Yakin ingin menghapus akses user ini?')">Hapus</button>
+                                        </form>
+                                    </div>
+                                @empty
+                                    <div class="list-group-item text-muted">Belum dibagikan ke siapa pun.</div>
+                                @endforelse
+                            </div>
+                        @else
+                            <div class="alert alert-warning">
+                                <h6 class="alert-heading">Warning!</h6>
+                                <p>Anda belum membuat catatan publik. Silahkan buat catatan publik terlebih dahulu.</p>
+                            </div>
+                        @endif
                     @else
                         <div class="alert alert-warning">
                             <h6 class="alert-heading">Warning!</h6>
