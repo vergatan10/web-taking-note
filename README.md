@@ -2,6 +2,14 @@
 
 Website ini adalah aplikasi pencatatan berbasis web yang dibuat menggunakan **Laravel 10** dan **Bootstrap 5**.
 
+## ERD
+
+![ERD](https://raw.githubusercontent.com/vergatan10/web-taking-note/refs/heads/main/ERD.png)
+
+## Tampilan Login
+
+![Tampilan Login](https://raw.githubusercontent.com/vergatan10/web-taking-note/refs/heads/main/Screenshot_1.png)
+
 ## Fitur
 
 - **Login & Autentikasi**  
